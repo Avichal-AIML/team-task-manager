@@ -10,22 +10,32 @@ export const AuthProvider = ({ children }) => {
   // Restore session on first load
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return setLoading(false);
+
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     api
-      .get('/auth/me')
+      .get('/api/auth/me')
       .then((res) => setUser(res.data))
       .catch(() => localStorage.removeItem('token'))
       .finally(() => setLoading(false));
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
+    const { data } = await api.post('/api/auth/login', {
+      email,
+      password,
+    });
+
     localStorage.setItem('token', data.token);
     setUser(data.user);
   };
 
   const signup = async (form) => {
-    const { data } = await api.post('/auth/signup', form);
+    const { data } = await api.post('/api/auth/signup', form);
+
     localStorage.setItem('token', data.token);
     setUser(data.user);
   };
@@ -36,7 +46,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
