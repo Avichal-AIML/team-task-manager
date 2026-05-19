@@ -6,9 +6,15 @@ import { useAuth } from "../context/AuthContext";
 const Projects = () => {
   const { user } = useAuth();
   const [projects, setProjects] = useState([]);
-  const [form, setForm] = useState({ name: "", description: "" });
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+  });
 
-  const load = () => api.get("/projects").then((res) => setProjects(res.data));
+  const load = () =>
+    api
+      .get("/api/projects")
+      .then((res) => setProjects(res.data));
 
   useEffect(() => {
     load();
@@ -16,8 +22,14 @@ const Projects = () => {
 
   const create = async (e) => {
     e.preventDefault();
-    await api.post("/projects", form);
-    setForm({ name: "", description: "" });
+
+    await api.post("/api/projects", form);
+
+    setForm({
+      name: "",
+      description: "",
+    });
+
     load();
   };
 
@@ -25,7 +37,10 @@ const Projects = () => {
     <div className="space-y-8">
       {/* Page Heading */}
       <div>
-        <h1 className="text-3xl font-bold text-indigo-300">Projects</h1>
+        <h1 className="text-3xl font-bold text-indigo-300">
+          Projects
+        </h1>
+
         <p className="text-gray-300 mt-2">
           Manage your projects and collaborate with your team.
         </p>
@@ -38,11 +53,19 @@ const Projects = () => {
             Create New Project
           </h2>
 
-          <form onSubmit={create} className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <form
+            onSubmit={create}
+            className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4"
+          >
             <input
               placeholder="Project name"
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value,
+                })
+              }
               required
               className="px-4 py-2 rounded-lg bg-slate-900 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
@@ -50,7 +73,12 @@ const Projects = () => {
             <input
               placeholder="Description"
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  description: e.target.value,
+                })
+              }
               className="px-4 py-2 rounded-lg bg-slate-900 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
 
@@ -70,6 +98,7 @@ const Projects = () => {
           <h2 className="text-xl font-bold text-indigo-200">
             No Projects Found
           </h2>
+
           <p className="text-gray-400 mt-2">
             Create a project to start managing tasks.
           </p>
@@ -82,7 +111,9 @@ const Projects = () => {
               key={p._id}
               className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg hover:scale-[1.02] transition block"
             >
-              <h2 className="text-xl font-bold text-indigo-200">{p.name}</h2>
+              <h2 className="text-xl font-bold text-indigo-200">
+                {p.name}
+              </h2>
 
               <p className="text-gray-300 text-sm mt-2">
                 {p.description || "No description available"}
