@@ -8,7 +8,7 @@ const Dashboard = () => {
   useEffect(() => {
     const loadDashboard = () => {
       api
-        .get("/dashboard")
+        .get("/api/dashboard")
         .then((res) => {
           console.log("DASHBOARD RESPONSE:", res.data);
           setStats(res.data);
@@ -85,6 +85,7 @@ const Dashboard = () => {
         <h2 className="text-xl font-bold text-indigo-200">
           Tasks Per Member
         </h2>
+
         <p className="text-gray-400 text-sm mt-1">
           Click on a member to view their tasks.
         </p>
@@ -102,6 +103,7 @@ const Dashboard = () => {
                 className="cursor-pointer flex justify-between items-center p-4 rounded-xl bg-slate-900/50 border border-white/10 hover:bg-slate-900 transition"
               >
                 <p className="text-white font-semibold">{name}</p>
+
                 <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-sm font-semibold">
                   {count} Tasks
                 </span>
@@ -126,6 +128,7 @@ const Dashboard = () => {
                   >
                     <div>
                       <p className="text-white font-semibold">{t.title}</p>
+
                       <p className="text-sm text-gray-400">
                         Project: {t.project} | Priority: {t.priority}
                       </p>
